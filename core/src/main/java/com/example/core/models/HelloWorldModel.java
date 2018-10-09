@@ -16,22 +16,31 @@
 package com.example.core.models;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
+import org.apache.sling.models.annotations.injectorspecific.ScriptVariable;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.apache.sling.settings.SlingSettingsService;
 
-@Model(adaptables=Resource.class)
+import com.day.cq.wcm.api.PageManager;
+
+@Model(adaptables = SlingHttpServletRequest.class)
 public class HelloWorldModel {
 
-    @Inject
+    @OSGiService
     private SlingSettingsService settings;
 
-    @Inject @Named("sling:resourceType") @Default(values="No resourceType")
+    @ValueMapValue
+    @Named("sling:resourceType")
+    @Default(values = "No resourceType")
     protected String resourceType;
+
+    @ScriptVariable
+    private PageManager pageManager;
 
     private String message;
 
